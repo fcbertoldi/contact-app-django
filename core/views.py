@@ -1,16 +1,15 @@
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render
 from django.views import generic
 from .models import Contact
 
-# TODO: search
+# TODO: pytest
+# TODO: ruff
 # TODO: detail
 # TODO: create
 # TODO: edit
 # TODO: delete
 # TODO: mudar cookiecutter pro django 4.2
-# TODO: adicionar git hooks pro black
 
 
 class IndexView(generic.ListView):
