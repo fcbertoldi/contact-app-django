@@ -5,3 +5,4 @@ Jinja2
 black>=24.3.0
 ipython
 pip-tools
+pre-commit

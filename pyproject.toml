@@ -1,3 +1,16 @@
 [project]
 name = "contact-app-django"
 requires-python = "~=python3.10.0"
+
+
+[tool.black]
+line-length = 88
+target-version = ['py310', 'py311']
+extend-exclude = """
+(
+   migrations/
+   | __pycache__/
+   | ^/static
+
+)
+"""
