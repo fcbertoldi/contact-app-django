@@ -14,3 +14,9 @@ extend-exclude = """
 
 )
 """
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "contact_app_django.settings"
+testpaths = [
+    "tests",
+]

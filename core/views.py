@@ -3,7 +3,6 @@ from django.db.models.query import QuerySet
 from django.views import generic
 from .models import Contact
 
-# TODO: pytest
 # TODO: ruff
 # TODO: detail
 # TODO: create

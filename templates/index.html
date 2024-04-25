@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form action="{% url 'contact-list' %}" method="get" class="tool-bar">
+    <form action="{% url 'core:contact-index' %}" method="get" class="tool-bar">
         <label for="search">Search Term</label>
         <input id="search" type="search" name="q" value="{{ request.args.get.q|default:'' }}"/>
         <input type="submit" value="Search"/>
