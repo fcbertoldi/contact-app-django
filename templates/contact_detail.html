@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h1>{{contact.first}} {{contact.last}}</h1>
+
+<div>
+  <div>Phone: {{contact.phone}}</div>
+  <div>Email: {{contact.email}}</div>
+</div>
+
+<p>
+  <a href="{% url 'core:contact-edit' contact.id %}">Edit</a>
+  <a href="{% url 'core:contact-index' %}">Back</a>
+</p>
+{% endblock %}

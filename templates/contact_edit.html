@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{% url 'core:contact-edit' contact.id %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+
+<form action="{% url 'core:contact-delete' contact.id %}" method="post">{% csrf_token %}
+    <button>Delete Contact</button>
+</form>
+
+<p>
+    <a href="{% url 'core:contact-index' %}">Back</a>
+</p>
+{% endblock %}

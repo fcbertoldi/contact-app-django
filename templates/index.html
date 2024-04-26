@@ -24,6 +24,7 @@
                 <td>{{ contact.last }}</td>
                 <td>{{ contact.phone }}</td>
                 <td>{{ contact.email }}</td>
+                <td><a href="{% url 'core:contact-detail' contact.id %}">View</a></td>
             </tr>
         {% endfor %}
         </tbody>

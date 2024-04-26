@@ -4,11 +4,6 @@ from django.urls import reverse
 from django.views import generic
 from .models import Contact
 
-# TODO: detail
-# TODO: edit
-# TODO: delete
-# TODO: mudar cookiecutter pro django 4.2
-
 
 class IndexView(generic.ListView):
     model = Contact
@@ -27,6 +22,33 @@ class CreateContactView(generic.CreateView):
     model = Contact
     template_name = "contact_create_form.html"
     fields = ["first", "last", "email", "phone"]
+
+    def get_success_url(self) -> str:
+        return reverse("core:contact-index")
+
+
+class DetailContactView(generic.DetailView):
+    model = Contact
+    slug_field = "id"
+    slug_url_kwarg = "id"
+    template_name = "contact_detail.html"
+
+
+class EditContactView(generic.UpdateView):
+    model = Contact
+    slug_field = "id"
+    slug_url_kwarg = "id"
+    template_name = "contact_edit.html"
+    fields = ["first", "last", "email", "phone"]
+
+    def get_success_url(self) -> str:
+        return reverse("core:contact-index")
+
+
+class DeleteContactView(generic.DeleteView):
+    model = Contact
+    slug_field = "id"
+    slug_url_kwarg = "id"
 
     def get_success_url(self) -> str:
         return reverse("core:contact-index")

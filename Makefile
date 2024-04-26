@@ -24,5 +24,20 @@ sync:
 	pew in $(VENV_NAME) $(PIP_SYNC) requirements.txt
 
 
+runserver:
+	pew in $(VENV_NAME) python manage.py runserver
+
+
+test:
+	pew in $(VENV_NAME) pytest .
+
+
+black:
+	pew in $(VENV_NAME) black .
+
+
 %.txt: %.in
 	pew in $(VENV_NAME) $(PIP_COMPILE) --generate-hashes --output-file $@ $<
+
+
+.PHONY: lock sync build-venv runserver test black
