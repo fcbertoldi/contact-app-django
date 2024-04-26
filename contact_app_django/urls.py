@@ -25,6 +25,6 @@ def redirect_view(request):
 
 urlpatterns = [
     path("", redirect_view),
-    path("contacts/", include("core.urls", namespace="core")),
+    path("contacts/", include("contact_app_django.core.urls", namespace="core")),
     path("admin/", admin.site.urls),
 ]
