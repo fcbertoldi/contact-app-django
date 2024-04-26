@@ -3,6 +3,7 @@ from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.views import generic
 from .models import Contact
+from contact_app_django.utils import HtmxDeleteView
 
 
 class IndexView(generic.ListView):
@@ -45,7 +46,7 @@ class EditContactView(generic.UpdateView):
         return reverse("core:contact-index")
 
 
-class DeleteContactView(generic.DeleteView):
+class DeleteContactView(HtmxDeleteView):
     model = Contact
     slug_field = "id"
     slug_url_kwarg = "id"

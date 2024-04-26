@@ -6,9 +6,9 @@
     <input type="submit" value="Save">
 </form>
 
-<form action="{% url 'core:contact-delete' contact.id %}" method="post">{% csrf_token %}
-    <button>Delete Contact</button>
-</form>
+<button hx-delete="{% url 'core:contact-delete' contact.id %}"
+        hx-push-url="true"
+        hx-target="body">Delete Contact</button>
 
 <p>
     <a href="{% url 'core:contact-index' %}">Back</a>
