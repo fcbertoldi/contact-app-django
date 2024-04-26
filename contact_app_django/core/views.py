@@ -1,7 +1,7 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.urls import reverse
-from django.views import generic
+from django.views import generic, View
 from .models import Contact
 from contact_app_django.utils import HtmxDeleteView
 
@@ -53,3 +53,13 @@ class DeleteContactView(HtmxDeleteView):
 
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
+
+
+class ContactView(View):
+    def get(self, request, *args, **kwargs):
+        view = DetailContactView.as_view()
+        return view(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        view = DeleteContactView.as_view()
+        return view(request, *args, **kwargs)
