@@ -1,14 +1,10 @@
 import uuid
-from typing import Optional
 from django.db import models
 from django.db.models import Q
 
 
 class ContactManager(models.Manager):
-    def search(self, search_param: Optional[str]):
-        if search_param is None:
-            return self.none()
-
+    def search(self, search_param: str):
         return self.get_queryset().filter(
             Q(first__icontains=search_param)
             | Q(last__icontains=search_param)
