@@ -22,7 +22,7 @@ class IndexView(generic.ListView):
 
 class CreateContactView(generic.CreateView):
     model = Contact
-    template_name = "contact_create_form.html"
+    template_name = "contact_create.html"
     form_class = ContactForm
 
     def get_success_url(self) -> str:
