@@ -2,8 +2,9 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.views import generic, View
-from .models import Contact
 from contact_app_django.utils import HtmxDeleteView
+from .forms import ContactForm
+from .models import Contact
 
 
 class IndexView(generic.ListView):
@@ -22,7 +23,7 @@ class IndexView(generic.ListView):
 class CreateContactView(generic.CreateView):
     model = Contact
     template_name = "contact_create_form.html"
-    fields = ["first", "last", "email", "phone"]
+    form_class = ContactForm
 
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
@@ -40,7 +41,7 @@ class EditContactView(generic.UpdateView):
     slug_field = "id"
     slug_url_kwarg = "id"
     template_name = "contact_edit.html"
-    fields = ["first", "last", "email", "phone"]
+    form_class = ContactForm
 
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
