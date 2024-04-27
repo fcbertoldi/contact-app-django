@@ -2,7 +2,7 @@
 
 {% block content %}
 <form action="{% url 'core:contact-create' %}" method="post">{% csrf_token %}
-    {{ form.as_div }}
+    {{ form }}
     <input type="submit" value="Save">
 </form>
 {% endblock %}

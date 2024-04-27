@@ -3,6 +3,8 @@ from .models import Contact
 
 
 class ContactForm(ModelForm):
+    template_name = "contact_form.html"
+
     email = EmailField()
 
     class Meta:

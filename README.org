@@ -1,31 +1,3 @@
-* TODO escrever um form template customizado para as views de Contact
-https://docs.djangoproject.com/en/4.2/topics/forms/#working-with-form-templates
-https://docs.djangoproject.com/en/4.2/topics/forms/#rendering-fields-manually
-
-renderizar somente um erro por campo
-
-#+name: contact_form.html
-#+BEGIN_SRC html
-{% for field in form %}
-<div class="field-wrapper">
-{{ field.label_tag }}
-{% if field.help_text %}<div class="helptext">{{ field.help_text|safe }}</div>{% endif %}
-{{ field }}
-{% if field.errors %}
-{% with error=field.errors.0 %}
-<span class="field-error">>{{ error|escape }}</span>
-{% endwith %}
-{% endif %}
-{% endfor %}
-</div>
-#+END_SRC
-
-#+BEGIN_SRC python
-class ContactForm(ModelForm):
-    form_template_name = "contact_form.html"
-#+END_SRC
-
-
 * TODO configurar widget do campo email para usar os attrs do htmx
 https://docs.djangoproject.com/en/4.2/ref/forms/widgets/
 https://docs.djangoproject.com/en/4.2/ref/forms/widgets/#customizing-widget-instances
