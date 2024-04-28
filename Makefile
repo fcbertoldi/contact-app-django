@@ -36,8 +36,16 @@ black:
 	pew in $(VENV_NAME) black .
 
 
+ruff-check:
+	pew in $(VENV_NAME) ruff check .
+
+
+ruff-fix:
+	pew in $(VENV_NAME) ruff check --fix .
+
+
 %.txt: %.in
 	pew in $(VENV_NAME) $(PIP_COMPILE) --generate-hashes --output-file $@ $<
 
 
-.PHONY: lock sync build-venv runserver test black
+.PHONY: lock sync build-venv runserver test black ruff-check ruff-fix
