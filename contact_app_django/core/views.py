@@ -1,7 +1,12 @@
 from typing import Any
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+
 from django.db.models.query import QuerySet
+from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.urls import reverse
 from django.views import generic, View
+from django.views.decorators.http import require_http_methods
 from contact_app_django.utils import HtmxDeleteView
 from .forms import ContactForm
 from .models import Contact
@@ -64,3 +69,17 @@ class ContactView(View):
     def delete(self, request, *args, **kwargs):
         view = DeleteContactView.as_view()
         return view(request, *args, **kwargs)
+
+
+@require_http_methods(["POST"])
+def validate_email_view(request: HttpRequest, id):
+    email = request.POST.get("email")
+    try:
+        validate_email(email)
+    except ValidationError:
+        return HttpResponseBadRequest("Invalid email")
+
+    if Contact.objects.exclude(id=id).filter(email=email).exists():
+        return HttpResponseBadRequest("Email already exists")
+
+    return HttpResponse()
