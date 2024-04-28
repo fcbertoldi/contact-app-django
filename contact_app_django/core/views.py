@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.views import generic, View
 from django.views.decorators.http import require_http_methods
@@ -51,6 +51,11 @@ class EditContactView(generic.UpdateView):
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["id"] = self.kwargs["id"]
+        return kwargs
+
 
 class DeleteContactView(HtmxDeleteView):
     model = Contact
@@ -77,9 +82,9 @@ def validate_email_view(request: HttpRequest, id):
     try:
         validate_email(email)
     except ValidationError:
-        return HttpResponseBadRequest("Invalid email")
+        return HttpResponse("Invalid email")
 
     if Contact.objects.exclude(id=id).filter(email=email).exists():
-        return HttpResponseBadRequest("Email already exists")
+        return HttpResponse("Email already exists")
 
     return HttpResponse()

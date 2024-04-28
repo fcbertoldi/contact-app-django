@@ -3,10 +3,12 @@
 {{ field.label_tag }}
 {% if field.help_text %}<div class="helptext">{{ field.help_text|safe }}</div>{% endif %}
 {{ field }}
+<span class="form-field-error">
 {% if field.errors %}
 {% with error=field.errors.0 %}
-<span class="form-field-error">>{{ error|escape }}</span>
+>{{ error|escape }}
 {% endwith %}
 {% endif %}
+</span>
 </div>
 {% endfor %}
