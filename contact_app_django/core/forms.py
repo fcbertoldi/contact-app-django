@@ -19,8 +19,11 @@ class ContactForm(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        contact_id = kwargs.pop("id")
         super().__init__(*args, **kwargs)
         self.fields["email"].widget.attrs.update(
-            {"hx-post": reverse("core:validate-contact-email", args=[contact_id])}
+            {
+                "hx-post": reverse(
+                    "core:validate-contact-email", kwargs={"id": self.instance.id}
+                )
+            }
         )

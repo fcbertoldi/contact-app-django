@@ -51,11 +51,6 @@ class EditContactView(generic.UpdateView):
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["id"] = self.kwargs["id"]
-        return kwargs
-
 
 class DeleteContactView(HtmxDeleteView):
     model = Contact
