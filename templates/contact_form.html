@@ -1,3 +1,7 @@
+{{ errors }}
+{% if errors and not fields %}
+  <div>{% for field in hidden_fields %}{{ field }}{% endfor %}</div>
+{% endif %}
 {% for field in form %}
 <div class="form-field-wrapper">
 {{ field.label_tag }}
@@ -12,3 +16,6 @@
 </span>
 </div>
 {% endfor %}
+{% if not fields and not errors %}
+  {% for field in hidden_fields %}{{ field }}{% endfor %}
+{% endif %}
