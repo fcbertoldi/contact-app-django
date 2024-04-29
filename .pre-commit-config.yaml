@@ -13,6 +13,8 @@ repos:
     -   id: check-yaml
     -   id: check-added-large-files
 
+
+
 -   repo: https://github.com/psf/black-pre-commit-mirror
     rev: 24.3.0
     hooks:
@@ -24,3 +26,11 @@ repos:
     hooks:
     # Run the linter.
     -   id: ruff
+
+-   repo: local
+    hooks:
+    -   id: django-manage-check
+        name: Run Django's check command
+        language: system
+        entry: python manage.py check
+        pass_filenames: false

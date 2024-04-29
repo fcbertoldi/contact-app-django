@@ -15,7 +15,9 @@ extend-exclude = """
 """
 
 [tool.ruff.lint]
-ignore = ["E501"]
+line-length = 88
+select = ["E", "F"]
+ignore = ["E501", "E741"]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "contact_app_django.settings"
