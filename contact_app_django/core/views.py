@@ -16,6 +16,7 @@ class IndexView(generic.ListView):
     model = Contact
     template_name = "index.html"
     context_object_name = "contacts"
+    paginate_by = 5
 
     def get_queryset(self) -> QuerySet[Any]:
         search_param = self.request.GET.get("q") or None
