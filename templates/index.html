@@ -27,28 +27,20 @@
                 <td><a href="{% url 'core:contact-detail' contact.id %}">View</a></td>
             </tr>
         {% endfor %}
+        {% if is_paginated and page_obj.has_next %}
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    <button hx-target="closest tr"
+                            hx-swap="outerHTML"
+                            hx-select="tbody > tr"
+                            hx-get="?page={{ page_obj.next_page_number }}">
+                        Load More
+                    </button>
+                </td>
+            </tr>
+        {% endif %}
         </tbody>
     </table>
-
-    {% if is_paginated %}
-    <div>
-        <span class="step-links" style="float: right">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                {{ page_obj.number }}
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-    {% endif %}
 
     <p>
         <a href="{% url 'core:contact-create' %}">Add Contact</a>
