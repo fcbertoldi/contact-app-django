@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
-from django.forms.renderers import TemplatesSetting
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -74,13 +73,6 @@ TEMPLATES = [
         },
     },
 ]
-
-
-class CustomFormRenderer(TemplatesSetting):
-    form_template_name = "contact_form.html"
-
-
-FORM_RENDERER = "contact_app_django.settings.CustomFormRenderer"
 
 
 WSGI_APPLICATION = "contact_app_django.wsgi.application"
