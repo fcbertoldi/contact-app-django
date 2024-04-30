@@ -14,8 +14,10 @@ extend-exclude = """
 )
 """
 
-[tool.ruff.lint]
+[tool.ruff]
 line-length = 88
+
+[tool.ruff.lint]
 select = ["E", "F"]
 ignore = ["E501", "E741"]
 

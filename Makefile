@@ -32,20 +32,24 @@ test:
 	pew in $(VENV_NAME) pytest .
 
 
+django-check:
+	pew in $(VENV_NAME) python manage.py check
+
+
 black:
 	pew in $(VENV_NAME) black .
 
 
 ruff-check:
-	pew in $(VENV_NAME) ruff check .
+	ruff check .
 
 
 ruff-fix:
-	pew in $(VENV_NAME) ruff check --fix .
+	ruff check --fix .
 
 
 %.txt: %.in
 	pew in $(VENV_NAME) $(PIP_COMPILE) --generate-hashes --output-file $@ $<
 
 
-.PHONY: lock sync build-venv runserver test black ruff-check ruff-fix
+.PHONY: lock sync build-venv runserver test django-check black ruff-check ruff-fix
