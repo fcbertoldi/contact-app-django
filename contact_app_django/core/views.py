@@ -1,6 +1,7 @@
 from typing import Any
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.shortcuts import get_object_or_404
 
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
@@ -73,7 +74,7 @@ class ContactView(View):
 
 
 @require_http_methods(["POST"])
-def validate_email_view(request: HttpRequest, id):
+def validate_email_view_alt(request: HttpRequest, id):
     email = request.POST.get("email")
     try:
         validate_email(email)
@@ -82,5 +83,18 @@ def validate_email_view(request: HttpRequest, id):
 
     if Contact.objects.exclude(id=id).filter(email=email).exists():
         return HttpResponse("Email already exists")
+
+    return HttpResponse()
+
+
+@require_http_methods(["POST"])
+def validate_email_view(request: HttpRequest, id=None):
+    contact = None
+    if id is not None:
+        contact = get_object_or_404(Contact, pk=id)
+
+    form = ContactForm(data=request.POST, instance=contact)
+    if not form.is_valid() and "email" in form.errors:
+        return HttpResponse(form.errors["email"])
 
     return HttpResponse()

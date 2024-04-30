@@ -18,11 +18,14 @@ class ContactForm(HtmxFormMixin, ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        if instance := kwargs.get("instance"):
+            viewname = "core:validate-contact-email"
+            viewname_kwargs = {"id": instance.id}
+        else:
+            viewname = "core:validate-new-email"
+            viewname_kwargs = None
+
         super().__init__(*args, **kwargs)
         self.fields["email"].widget.attrs.update(
-            {
-                "hx-post": reverse(
-                    "core:validate-contact-email", kwargs={"id": self.instance.id}
-                )
-            }
+            {"hx-post": reverse(viewname, kwargs=viewname_kwargs)}
         )
