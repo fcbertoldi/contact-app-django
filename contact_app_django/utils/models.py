@@ -11,9 +11,9 @@ class TimestampedModel(models.Model):
 
     def save(self, *args, **kwargs):
         now = timezone.now()
-        self.updated = now
-        if self.pk is None:
-            self.created = now
+        self.updated_at = now
+        if self._state.adding:
+            self.created_at = now
 
         super().save(*args, **kwargs)
 
