@@ -48,8 +48,12 @@ ruff-fix:
 	ruff check --fix .
 
 
+bandit:
+	bandit -c pyproject.toml -r .
+
+
 %.txt: %.in
 	pew in $(VENV_NAME) $(PIP_COMPILE) --generate-hashes --output-file $@ $<
 
 
-.PHONY: lock sync build-venv runserver test django-check black ruff-check ruff-fix
+.PHONY: lock sync build-venv runserver test django-check black ruff-check ruff-fix bandit

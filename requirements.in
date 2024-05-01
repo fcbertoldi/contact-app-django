@@ -9,3 +9,4 @@ pip-tools
 pre-commit
 pytest
 pytest-django
+bandit[toml]

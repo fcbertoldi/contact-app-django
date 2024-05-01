@@ -1,21 +1,5 @@
-* TODO configurar widget do campo email para usar os attrs do htmx
-https://docs.djangoproject.com/en/4.2/ref/forms/widgets/
-https://docs.djangoproject.com/en/4.2/ref/forms/widgets/#customizing-widget-instances
-https://docs.djangoproject.com/en/4.2/ref/forms/validation/
-https://stackoverflow.com/questions/37296102/access-request-in-init-in-modelform
-
-#+BEGIN_SRC python
-class ContactForm(ModelForm):
-    email = EmailField(
-        widget=forms.EmailInput(
-            attrs={
-                "hx-get": reverse(),
-                "hx-target": "next .field-error",
-                }
-            )
-        )
-#+END_SRC
-
+* TODO testar bandit
+* TODO testar mypy
 
 * TODO testar teste e2e com Playwright
 https://playwright.dev/

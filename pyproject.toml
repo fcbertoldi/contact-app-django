@@ -26,3 +26,6 @@ DJANGO_SETTINGS_MODULE = "contact_app_django.settings"
 testpaths = [
     "tests",
 ]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
