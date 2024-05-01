@@ -17,7 +17,7 @@ class IndexView(generic.ListView):
     model = Contact
     template_name = "index.html"
     context_object_name = "contacts"
-    ordering = ["first", "last"]
+    ordering = ["created_at", "first", "last"]
     paginate_by = 5
 
     def get_queryset(self) -> QuerySet[Any]:
