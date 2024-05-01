@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.db.models import Q
+from contact_app_django.utils import TimestampedModel
 
 
 class ContactManager(models.Manager):
@@ -13,7 +14,7 @@ class ContactManager(models.Manager):
         )
 
 
-class Contact(models.Model):
+class Contact(TimestampedModel, models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first = models.CharField(max_length=100)
     last = models.CharField(max_length=100)
