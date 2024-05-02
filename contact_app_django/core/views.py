@@ -15,7 +15,6 @@ from .models import Contact
 
 class IndexView(generic.ListView):
     model = Contact
-    template_name = "index.html"
     context_object_name = "contacts"
     ordering = ["created_at", "first", "last"]
     paginate_by = 5
@@ -26,6 +25,12 @@ class IndexView(generic.ListView):
             return Contact.objects.search(search_param)
 
         return super().get_queryset()
+
+    def get_template_names(self) -> list[str]:
+        if self.request.htmx and self.request.htmx.trigger == "search":
+            return ["rows.html"]
+        else:
+            return ["index.html"]
 
 
 class CreateContactView(generic.CreateView):
