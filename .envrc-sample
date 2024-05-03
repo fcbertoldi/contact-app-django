@@ -1,4 +1,0 @@
-export DEBUG="1"
-export SECRET_KEY="87mrb*l7dgszwpho=kb%k7k(_ioarn0eg+b!5m@jq)_kyqkaf&"
-export ALLOWED_HOSTS="*"
-export DATABASE_URL="sqlite:///db.sqlite3"
