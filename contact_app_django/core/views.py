@@ -32,6 +32,11 @@ class IndexView(generic.ListView):
         else:
             return ["index.html"]
 
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["contact_count"] = Contact.objects.count()
+        return context
+
 
 class CreateContactView(generic.CreateView):
     model = Contact
