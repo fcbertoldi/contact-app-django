@@ -4,6 +4,7 @@ from . import views
 app_name = "core"
 urlpatterns = [
     path("", views.IndexView.as_view(), name="contact-index"),
+    path("count", views.slow_contact_count, name="contact-count"),
     path("new/", views.CreateContactView.as_view(), name="contact-create"),
     path("new/validate-email/", views.validate_email_view, name="validate-new-email"),
     path("<uuid:id>/", views.ContactView.as_view(), name="contact-detail"),

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
     <form action="{% url 'core:contact-index' %}" method="get" class="tool-bar">
         <label for="search">Search Term</label>
@@ -44,6 +44,11 @@
     </table>
 
     <p>
-        <a href="{% url 'core:contact-create' %}">Add Contact</a> <span>({{ contact_count }} total Contacts)</span>
+        <a href="{% url 'core:contact-create' %}">Add Contact</a>
+        <span hx-get="{% url 'core:contact-count' %}" hx-trigger="revealed">
+            <img id="spinner" class="htmx-indicator" src="{% static 'img/spinning-circles.svg' %}"/>
+        </span>
+
+
     </p>
 {% endblock %}

@@ -1,3 +1,5 @@
+import random
+from time import sleep
 from typing import Any
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -109,3 +111,10 @@ def validate_email_view(request: HttpRequest, id=None):
         return HttpResponse(form.errors["email"])
 
     return HttpResponse()
+
+
+@require_http_methods(["GET"])
+def slow_contact_count(request: HttpRequest):
+    sleep(random.randrange(1, 3))  # nosec B311
+    count = Contact.objects.count()
+    return HttpResponse(f"({count} total contacts)")
