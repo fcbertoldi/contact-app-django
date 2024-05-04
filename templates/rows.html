@@ -8,8 +8,9 @@
         <a href="{% url 'core:contact-edit' contact.id %}">Edit</a>
         <a href="#top"
            hx-delete="{% url 'core:contact-detail' contact.id %}"
+           hx-swap="outerHTML"
            hx-confirm="Are you sure you want to delete this contact?"
-           hx-target="body">Delete</a>
+           hx-target="closest tr">Delete</a>
     </td>
 </tr>
 {% endfor %}

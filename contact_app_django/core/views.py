@@ -71,9 +71,19 @@ class DeleteContactView(HtmxDeleteView):
     model = Contact
     slug_field = "id"
     slug_url_kwarg = "id"
+    redirect_map = {
+        "contact-delete-btn": True,
+    }
 
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
+
+    def should_redirect(self) -> bool:
+        if not self.request.htmx:
+            return True
+
+        redirect_element = self.redirect_map.get(self.request.htmx.trigger, False)
+        return redirect_element
 
 
 class ContactView(View):
