@@ -1,6 +1,8 @@
+from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponse
 from django.http.response import HttpResponseRedirectBase
-from django.views import generic
+from django.views import View
+from django.views.generic.detail import SingleObjectMixin
 
 
 class HttpResponseSeeOther(HttpResponseRedirectBase):
@@ -9,6 +11,13 @@ class HttpResponseSeeOther(HttpResponseRedirectBase):
 
 class HtmxDeletionMixin:
     redirect = True
+    success_url = None
+
+    def get_success_url(self) -> str:
+        if self.success_url:
+            return str(self.success_url)
+
+        raise ImproperlyConfigured("No URL to redirect to.")
 
     def should_redirect(self) -> bool:
         return self.redirect
@@ -29,5 +38,5 @@ class HtmxDeletionMixin:
             return HttpResponse()
 
 
-class HtmxDeleteView(HtmxDeletionMixin, generic.DeleteView):
+class HtmxDeleteView(HtmxDeletionMixin, SingleObjectMixin, View):
     pass
