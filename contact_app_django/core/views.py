@@ -1,16 +1,18 @@
 import random
 from time import sleep
 from typing import Any
+
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.shortcuts import get_object_or_404
-
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.views import generic, View
+from django.views import View, generic
 from django.views.decorators.http import require_http_methods
+
 from contact_app_django.utils import HtmxDeleteView
+
 from .forms import ContactForm
 from .models import Contact
 
