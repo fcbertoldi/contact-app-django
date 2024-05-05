@@ -6,7 +6,7 @@ from django.core.validators import validate_email
 from django.shortcuts import get_object_or_404
 
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic, View
 from django.views.decorators.http import require_http_methods
@@ -128,3 +128,10 @@ def slow_contact_count(request: HttpRequest):
     sleep(random.randrange(1, 3))  # nosec B311
     count = Contact.objects.count()
     return HttpResponse(f"({count} total contacts)")
+
+
+@require_http_methods(["POST"])
+def bulk_delete(request: HttpRequest):
+    contact_ids = request.POST.getlist("selected_contact_ids")
+    Contact.objects.filter(id__in=contact_ids).delete()
+    return HttpResponseRedirect(reverse("core:contact-index"))
