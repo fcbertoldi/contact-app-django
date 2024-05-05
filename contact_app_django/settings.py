@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
+    "contact_app_django.middleware.EnrichDeleteRequestMiddleware",
 ]
 
 ROOT_URLCONF = "contact_app_django.urls"
