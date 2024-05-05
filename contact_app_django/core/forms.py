@@ -1,6 +1,8 @@
-from django.forms import ModelForm, EmailInput
+from django.forms import EmailInput, ModelForm
 from django.urls import reverse
+
 from contact_app_django.utils import HtmxFormMixin
+
 from .models import Contact
 
 
