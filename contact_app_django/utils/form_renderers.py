@@ -7,6 +7,3 @@ class HtmxFormRenderer(TemplatesSetting):
 
 class HtmxFormMixin:
     default_renderer = HtmxFormRenderer()
-
-    # def __init__(self, *args, **kwargs) -> None:
-    #     return super().__init__(*args, label_suffix="", **kwargs)
