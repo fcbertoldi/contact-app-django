@@ -1,3 +1,4 @@
 {
+    "html.format.wrapAttributes": "force-aligned",
     "python.testing.pytestEnabled": true
 }
