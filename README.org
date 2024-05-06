@@ -1,3 +1,42 @@
+* TODO configurar local-memory cache
+https://docs.djangoproject.com/en/5.0/topics/cache/#local-memory-caching
+
+#+name: settings.py
+#+begin_src python
+
+KVSTORE_NAME = "kvstore"
+
+CACHES = {
+    KVSTORE_NAME: {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": KVSTORE_NAME,
+        "TIMEOUT": None,
+    }
+}
+#+end_src
+
+#+name: kvstore.py
+#+begin_src python
+from django.conf import setttings
+
+def get_kvstore():
+    from django.core.cache import caches
+    return caches[settings.KVSTORE_NAME]
+#+end_src
+
+* TODO programar infra da task queue
+1. definir worker pool no AppConfig
+2. implementar funcao worker que puxa da Queue
+- chamar funcao close_old_connections no começo e fim
+https://stackoverflow.com/questions/20058589/closing-db-connection-with-djangos-persistent-connection-in-a-multi-threaded-sc
+
+3. testar
+
+https://chatgpt.com/c/c8d31be9-722a-440d-a942-333a1f5b152d
+https://docs.python.org/3.10/library/multiprocessing.html
+
+* TODO implementar Archiver
+
 * TODO testar mypy
 
 * TODO testar teste e2e com Playwright
