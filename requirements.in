@@ -2,7 +2,6 @@ Django~=4.2
 dj_database_url
 django-htmx
 sqlparse>=0.5.0
-Jinja2
 black>=24.3.0
 ipython
 pip-tools
