@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import dj_database_url
+import django_cache_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG") or True
 
 ALLOWED_HOSTS = []
 
@@ -89,6 +90,18 @@ DATABASES = {
     ),
 }
 
+KVSTORE_ALIAS = "kvstore"
+
+CACHES = {
+    "default": django_cache_url.config(),
+    KVSTORE_ALIAS: django_cache_url.config(env="KVSTORE_CACHE_URL"),
+}
+
+CACHES[KVSTORE_ALIAS].update(
+    {
+        "TIMEOUT": None,
+    }
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

@@ -1,6 +1,14 @@
+from django.conf import settings
+
 from .form_renderers import HtmxFormMixin
 from .models import TimestampedModel
-from .views import HttpResponseSeeOther, HtmxDeletionMixin, HtmxDeleteView
+from .views import HtmxDeleteView, HtmxDeletionMixin, HttpResponseSeeOther
+
+
+def get_kvstore():
+    from django.core.cache import caches
+
+    return caches[settings.KVSTORE_ALIAS]
 
 
 __all__ = [
@@ -9,4 +17,5 @@ __all__ = [
     "HtmxDeleteView",
     "HtmxFormMixin",
     "TimestampedModel",
+    "get_kvstore",
 ]
