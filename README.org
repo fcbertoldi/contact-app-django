@@ -1,14 +1,3 @@
-* TODO programar infra da task queue
-1. definir worker pool no AppConfig
-2. implementar funcao worker que puxa da Queue
-- chamar funcao close_old_connections no começo e fim
-https://stackoverflow.com/questions/20058589/closing-db-connection-with-djangos-persistent-connection-in-a-multi-threaded-sc
-
-3. testar
-
-https://chatgpt.com/c/c8d31be9-722a-440d-a942-333a1f5b152d
-https://docs.python.org/3.10/library/multiprocessing.html
-
 * TODO implementar Archiver
 
 * TODO testar mypy

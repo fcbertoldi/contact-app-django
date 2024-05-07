@@ -2,6 +2,7 @@ from django.conf import settings
 
 from .form_renderers import HtmxFormMixin
 from .models import TimestampedModel
+from .tasks import send_task
 from .views import HtmxDeleteView, HtmxDeletionMixin, HttpResponseSeeOther
 
 
@@ -18,4 +19,5 @@ __all__ = [
     "HtmxFormMixin",
     "TimestampedModel",
     "get_kvstore",
+    "send_task",
 ]
