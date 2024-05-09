@@ -15,4 +15,6 @@ urlpatterns = [
         views.validate_email_view,
         name="validate-contact-email",
     ),
+    path("archive/", views.start_archive, name="contact-archive"),
+    path("archive/file", views.archive_file, name="contact-archive-file"),
 ]

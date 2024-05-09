@@ -1,0 +1,8 @@
+<div hx-target="this"
+     hx-swap="outerHTML">
+     {% if archiver_status == 'WAITING' %}
+        <button hx-post="{% url 'core:contact-archive' %}">Download Contact Archive</button>
+     {% elif archiver_status == 'RUNNING' %}
+        Running...
+     {% endif %}
+</div>

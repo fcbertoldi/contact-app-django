@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db.models.query import QuerySet
 from django.http import FileResponse, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import View, generic
 from django.views.decorators.http import require_http_methods
@@ -32,15 +32,26 @@ class IndexView(generic.ListView):
 
         return super().get_queryset()
 
+    def search_triggered(self) -> bool:
+        return self.request.htmx and self.request.htmx.trigger == "search"
+
     def get_template_names(self) -> list[str]:
-        if self.request.htmx and self.request.htmx.trigger == "search":
-            return ["rows.html"]
-        else:
-            return ["index.html"]
+        return ["rows.html"] if self.search_triggered() else ["index.html"]
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["contact_count"] = Contact.objects.count()
+        context.update(
+            {
+                "contact_count": Contact.objects.count(),
+            }
+        )
+        if not self.search_triggered():
+            context.update(
+                {
+                    "archiver_status": archiver.status.name,
+                }
+            )
+
         return context
 
     def delete(self, request):
@@ -137,6 +148,20 @@ def slow_contact_count(request: HttpRequest):
     sleep(random.randrange(1, 3))  # nosec B311
     count = Contact.objects.count()
     return HttpResponse(f"({count} total contacts)")
+
+
+@require_http_methods(["POST"])
+def start_archive(request: HttpRequest):
+    archiver.archive()
+    context = {
+        "archiver_status": archiver.status.name,
+    }
+    return render(
+        request,
+        template_name="archive_ui.html",
+        context=context,
+        status=HTTPStatus.CREATED,
+    )
 
 
 @require_http_methods(["GET"])

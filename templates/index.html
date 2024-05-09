@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+{% include 'archive_ui.html' %}
+
 <form action="{% url 'core:contact-index' %}"
       method="get"
       class="tool-bar">
