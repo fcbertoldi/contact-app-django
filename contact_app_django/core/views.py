@@ -1,11 +1,12 @@
 import random
+from http import HTTPStatus
 from time import sleep
 from typing import Any
 
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse
+from django.http import FileResponse, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views import View, generic
@@ -15,6 +16,7 @@ from contact_app_django.utils import HtmxDeleteView
 
 from .forms import ContactForm
 from .models import Contact
+from .services import ArchiverException, archiver
 
 
 class IndexView(generic.ListView):
@@ -135,3 +137,14 @@ def slow_contact_count(request: HttpRequest):
     sleep(random.randrange(1, 3))  # nosec B311
     count = Contact.objects.count()
     return HttpResponse(f"({count} total contacts)")
+
+
+@require_http_methods(["GET"])
+def archive_file(request: HttpRequest):
+    try:
+        return FileResponse(
+            archiver.get_archive_file(), as_attachment=True, filename="contacts.json"
+        )
+    except ArchiverException as e:
+        print(f"Error: {e}")
+        return HttpResponse(status=HTTPStatus.EXPECTATION_FAILED)
