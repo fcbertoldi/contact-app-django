@@ -150,18 +150,28 @@ def slow_contact_count(request: HttpRequest):
     return HttpResponse(f"({count} total contacts)")
 
 
-@require_http_methods(["POST"])
-def start_archive(request: HttpRequest):
-    archiver.archive()
-    context = {
-        "archiver_status": archiver.status.name,
-    }
-    return render(
-        request,
-        template_name="archive_ui.html",
-        context=context,
-        status=HTTPStatus.CREATED,
-    )
+class ArchiveView(View):
+    def get_context_data(self):
+        return {
+            "archiver_status": archiver.status.name,
+            "archiver_progress": archiver.progress,
+        }
+
+    def post(self, request, *args, **kwargs):
+        archiver.archive()
+        return render(
+            request,
+            template_name="archive_ui.html",
+            context=self.get_context_data(),
+            status=HTTPStatus.CREATED,
+        )
+
+    def get(self, request, *args, **kwargs):
+        return render(
+            request,
+            template_name="archive_ui.html",
+            context=self.get_context_data(),
+        )
 
 
 @require_http_methods(["GET"])

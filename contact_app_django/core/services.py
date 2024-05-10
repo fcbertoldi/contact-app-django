@@ -1,6 +1,6 @@
 import enum
 import time
-from io import StringIO
+from io import BytesIO
 from threading import Lock
 
 from django.core import serializers
@@ -32,21 +32,23 @@ class Archiver:
         with self._lock:
             self._status = value
 
-    def run(self):
+    def archive(self):
         from contact_app_django.tasks import enqueue
 
-        if self.status != Status.RUNNING:
-            enqueue()
+        with self._lock:
+            if self._status != Status.RUNNING:
+                self._status = Status.RUNNING
+                enqueue()
 
     def do_run(self):
-        self.status = Status.RUNNING
         self.progress = 0
-        for i in range(5):
+        num_steps = 5
+        for i in range(num_steps):
             time.sleep(1)
             if self.status != Status.RUNNING:
                 return
 
-            self.progress += 20
+            self.progress += 1 / num_steps
 
         self.status = Status.COMPLETE
 
@@ -56,8 +58,9 @@ class Archiver:
         if self.status != Status.COMPLETE:
             raise ArchiverException("Archive file not available")
 
+        self.status = Status.WAITING
         data = serializers.serialize("json", Contact.objects.all())
-        return StringIO(initial_value=data)
+        return BytesIO(data.encode())
 
     def reset(self):
         with self._lock:
