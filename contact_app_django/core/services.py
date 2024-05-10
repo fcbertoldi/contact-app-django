@@ -1,7 +1,7 @@
 import enum
 import time
 from io import BytesIO
-from threading import Lock
+from threading import Condition, Lock, Thread
 
 from django.core import serializers
 
@@ -21,6 +21,15 @@ class Archiver:
         self.progress = 0
         self._status = Status.WAITING
         self._lock = Lock()
+        self._cond = Condition()
+        self.thread = None
+
+    @classmethod
+    def create(cls):
+        archiver = Archiver()
+        archiver.thread = Thread(target=archiver._run)
+        archiver.thread.start()
+        return archiver
 
     @property
     def status(self):
@@ -33,14 +42,28 @@ class Archiver:
             self._status = value
 
     def archive(self):
-        from contact_app_django.tasks import enqueue
-
         with self._lock:
             if self._status != Status.RUNNING:
                 self._status = Status.RUNNING
-                enqueue()
+        with self._cond:
+            self._cond.notify()
 
-    def do_run(self):
+    def running(self) -> bool:
+        return self.status != Status.RUNNING
+
+    def _run(self):
+        from django.db import close_old_connections
+
+        close_old_connections()
+
+        while True:
+            with self._cond:
+                self._cond.wait_for(self.running)
+
+            self._archive_task()
+            close_old_connections()
+
+    def _archive_task(self):
         self.progress = 0
         num_steps = 5
         for i in range(num_steps):
@@ -69,4 +92,4 @@ class Archiver:
                 self.progress = 0.0
 
 
-archiver = Archiver()
+archiver = Archiver.create()

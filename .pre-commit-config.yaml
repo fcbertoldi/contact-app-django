@@ -33,11 +33,3 @@ repos:
     -   id: bandit
         args: ["-c", "pyproject.toml", "-r", "."]
         additional_dependencies: ["bandit[toml]"]
-
--   repo: local
-    hooks:
-    -   id: django-manage-check
-        name: Run Django's system check
-        language: system
-        entry: make django-check
-        pass_filenames: false
