@@ -154,7 +154,7 @@ class ArchiveView(View):
     def get_context_data(self):
         return {
             "archiver_status": archiver.status.name,
-            "archiver_progress": archiver.progress,
+            "archiver_progress": round(archiver.progress * 100),
         }
 
     def post(self, request, *args, **kwargs):
