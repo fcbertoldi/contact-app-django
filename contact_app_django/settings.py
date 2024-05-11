@@ -90,18 +90,9 @@ DATABASES = {
     ),
 }
 
-KVSTORE_ALIAS = "kvstore"
-
 CACHES = {
     "default": django_cache_url.config(),
-    KVSTORE_ALIAS: django_cache_url.config(env="KVSTORE_CACHE_URL"),
 }
-
-CACHES[KVSTORE_ALIAS].update(
-    {
-        "TIMEOUT": None,
-    }
-)
 
 
 # Password validation
