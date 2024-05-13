@@ -1,5 +1,7 @@
-<div hx-target="this"
-     hx-swap="outerHTML">
+<div id="archive-ui"
+     hx-target="this"
+     hx-swap="outerHTML"
+     hx-on::load="this.querySelector('#archive-link')?.click()">
    {% if archiver_status == 'WAITING' %}
    <button hx-post="{% url 'core:contact-archive' %}">Download Contact Archive</button>
    {% elif archiver_status == 'RUNNING' %}
@@ -15,7 +17,8 @@
       </div>
    </div>
    {% elif archiver_status == 'COMPLETE' %}
-   <a hx-boost="false"
-      href="{% url 'core:contact-archive-file' %}">Archive Ready! Click here to download. &downarrow;</a>
+   <a id="archive-link"
+      hx-boost="false"
+      href="{% url 'core:contact-archive-file' %}">Archive Ready! Click here if auto-dowload does not start. &downarrow;</a>
    {% endif %}
 </div>
