@@ -10,3 +10,4 @@ pre-commit
 pytest
 pytest-django
 bandit[toml]
+environs

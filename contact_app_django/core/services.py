@@ -28,6 +28,7 @@ class Archiver:
     def create(cls):
         archiver = Archiver()
         archiver.thread = Thread(target=archiver._run)
+        archiver.thread.daemon = True
         archiver.thread.start()
         return archiver
 
