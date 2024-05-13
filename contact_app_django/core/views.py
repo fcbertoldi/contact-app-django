@@ -150,18 +150,22 @@ def slow_contact_count(request: HttpRequest):
     return HttpResponse(f"({count} total contacts)")
 
 
-class ArchiveView(View):
+class ArchiveMixin:
+    template_name = "archive_ui.html"
+
     def get_context_data(self):
         return {
             "archiver_status": archiver.status.name,
             "archiver_progress": round(archiver.progress * 100),
         }
 
+
+class ArchiveView(ArchiveMixin, View):
     def post(self, request, *args, **kwargs):
         archiver.archive()
         return render(
             request,
-            template_name="archive_ui.html",
+            template_name=self.template_name,
             context=self.get_context_data(),
             status=HTTPStatus.CREATED,
         )
@@ -169,7 +173,7 @@ class ArchiveView(View):
     def get(self, request, *args, **kwargs):
         return render(
             request,
-            template_name="archive_ui.html",
+            template_name=self.template_name,
             context=self.get_context_data(),
         )
 
@@ -183,3 +187,13 @@ def archive_file(request: HttpRequest):
     except ArchiverException as e:
         print(f"Error: {e}")
         return HttpResponse(status=HTTPStatus.EXPECTATION_FAILED)
+
+
+class ArchiveResetView(ArchiveMixin, View):
+    def post(self, request, *args, **kwargs):
+        archiver.reset()
+        return render(
+            request,
+            template_name=self.template_name,
+            context=self.get_context_data(),
+        )

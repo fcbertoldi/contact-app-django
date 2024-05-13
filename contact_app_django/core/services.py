@@ -82,13 +82,12 @@ class Archiver:
         if self.status != Status.COMPLETE:
             raise ArchiverException("Archive file not available")
 
-        self.status = Status.WAITING
         data = serializers.serialize("json", Contact.objects.all())
         return BytesIO(data.encode())
 
     def reset(self):
         with self._lock:
-            if self._status == Status.RUNNING:
+            if self._status != Status.WAITING:
                 self._status = Status.WAITING
                 self.progress = 0.0
 

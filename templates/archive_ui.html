@@ -19,6 +19,10 @@
    {% elif archiver_status == 'COMPLETE' %}
    <a id="archive-link"
       hx-boost="false"
-      href="{% url 'core:contact-archive-file' %}">Archive Ready! Click here if auto-dowload does not start. &downarrow;</a>
+      href="{% url 'core:contact-archive-file' %}">Archive Ready! Click here if auto-dowload does not start.
+      &downarrow;</a>
+   {% endif %}
+   {% if archiver_status != 'WAITING' %}
+   <button hx-post="{% url 'core:contact-archive-reset' %}" style="display: block;">Reset archive</button>
    {% endif %}
 </div>

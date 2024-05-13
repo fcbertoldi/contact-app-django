@@ -17,4 +17,7 @@ urlpatterns = [
     ),
     path("archive/", views.ArchiveView.as_view(), name="contact-archive"),
     path("archive/file", views.archive_file, name="contact-archive-file"),
+    path(
+        "archive/reset", views.ArchiveResetView.as_view(), name="contact-archive-reset"
+    ),
 ]
