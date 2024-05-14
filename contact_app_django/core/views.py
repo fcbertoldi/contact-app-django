@@ -6,11 +6,13 @@ from typing import Any
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db.models.query import QuerySet
+from django.forms import BaseModelForm
 from django.http import FileResponse, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import View, generic
 from django.views.decorators.http import require_http_methods
+from django_htmx.http import trigger_client_event
 
 from contact_app_django.utils import HtmxDeleteView
 
@@ -56,8 +58,13 @@ class IndexView(generic.ListView):
 
     def delete(self, request):
         contact_ids = request.DELETE.getlist("selected_contact_ids")
-        Contact.objects.filter(id__in=contact_ids).delete()
-        return self.get(request)
+        num_deleted, _ = Contact.objects.filter(id__in=contact_ids).delete()
+        response = self.get(request)
+        if num_deleted > 0:
+            archiver.reset()
+            response = trigger_client_event(response, "contactsUpdated")
+
+        return response
 
 
 class CreateContactView(generic.CreateView):
@@ -67,6 +74,11 @@ class CreateContactView(generic.CreateView):
 
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        response = super().form_valid(form)
+        archiver.reset()
+        return trigger_client_event(response, "contactsUpdated")
 
 
 class DetailContactView(generic.DetailView):
@@ -86,6 +98,11 @@ class EditContactView(generic.UpdateView):
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
 
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        response = super().form_valid(form)
+        archiver.reset()
+        return trigger_client_event(response, "contactsUpdated")
+
 
 class DeleteContactView(HtmxDeleteView):
     model = Contact
@@ -104,6 +121,10 @@ class DeleteContactView(HtmxDeleteView):
 
         redirect_element = self.redirect_map.get(self.request.htmx.trigger, False)
         return redirect_element
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        return trigger_client_event(response, "contactsUpdated")
 
 
 class ContactView(View):
