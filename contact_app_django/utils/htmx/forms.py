@@ -5,5 +5,5 @@ class HtmxFormRenderer(TemplatesSetting):
     form_template_name = "htmx_form.html"
 
 
-class HtmxFormMixin:
+class FormMixin:
     default_renderer = HtmxFormRenderer()

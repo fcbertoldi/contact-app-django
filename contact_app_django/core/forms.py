@@ -1,12 +1,12 @@
 from django.forms import EmailInput, ModelForm
 from django.urls import reverse
 
-from contact_app_django.utils import HtmxFormMixin
+from contact_app_django.utils.htmx.forms import FormMixin
 
 from .models import Contact
 
 
-class ContactForm(HtmxFormMixin, ModelForm):
+class ContactForm(FormMixin, ModelForm):
     class Meta:
         model = Contact
         fields = ["first", "last", "email", "phone"]

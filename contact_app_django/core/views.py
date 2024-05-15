@@ -12,7 +12,7 @@ from django.urls import reverse
 from django.views import View, generic
 from django.views.decorators.http import require_http_methods
 
-from contact_app_django.utils import HtmxDeleteView
+from contact_app_django.utils.htmx.views import DeleteView
 
 from .forms import ContactForm
 from .models import Contact
@@ -87,7 +87,7 @@ class EditContactView(generic.UpdateView):
         return reverse("core:contact-index")
 
 
-class DeleteContactView(HtmxDeleteView):
+class DeleteContactView(DeleteView):
     model = Contact
     slug_field = "id"
     slug_url_kwarg = "id"

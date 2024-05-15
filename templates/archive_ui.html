@@ -23,6 +23,7 @@
       &downarrow;</a>
    {% endif %}
    {% if archiver_status != 'WAITING' %}
-   <button hx-post="{% url 'core:contact-archive-reset' %}" style="display: block;">Reset archive</button>
+   <button hx-post="{% url 'core:contact-archive-reset' %}"
+           style="display: block;">Reset archive</button>
    {% endif %}
 </div>

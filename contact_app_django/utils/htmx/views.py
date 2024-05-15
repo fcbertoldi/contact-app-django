@@ -3,13 +3,14 @@ from django.http import HttpResponse
 from django.http.response import HttpResponseRedirectBase
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin
+from django_htmx.http import HttpResponseLocation
 
 
 class HttpResponseSeeOther(HttpResponseRedirectBase):
     status_code = 303
 
 
-class HtmxDeletionMixin:
+class DeletionMixin:
     redirect = True
     success_url = None
 
@@ -33,10 +34,10 @@ class HtmxDeletionMixin:
         self.object = self.get_object()
         self.object.delete()
         if self.should_redirect():
-            return HttpResponseSeeOther(self.get_success_url())
+            return HttpResponseLocation(self.get_success_url())
         else:
             return HttpResponse()
 
 
-class HtmxDeleteView(HtmxDeletionMixin, SingleObjectMixin, View):
+class DeleteView(DeletionMixin, SingleObjectMixin, View):
     pass
