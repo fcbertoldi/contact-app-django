@@ -1,6 +1,8 @@
 <div id="archive-ui"
+     hx-get="{% url 'core:contact-archive' %}"
      hx-target="this"
      hx-swap="outerHTML"
+     hx-trigger="contactsChanged from:body"
      hx-on::load="this.querySelector('#archive-link')?.click()">
    {% if archiver_status == 'WAITING' %}
    <button hx-post="{% url 'core:contact-archive' %}">Download Contact Archive</button>

@@ -11,12 +11,15 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import View, generic
 from django.views.decorators.http import require_http_methods
+from django_htmx.http import trigger_client_event
 
 from contact_app_django.utils.htmx.views import DeleteView
 
 from .forms import ContactForm
 from .models import Contact
 from .services import ArchiverException, archiver
+
+CONTACTS_CHANGED_EVENT = "contactsChanged"
 
 
 class IndexView(generic.ListView):
@@ -56,8 +59,13 @@ class IndexView(generic.ListView):
 
     def delete(self, request):
         contact_ids = request.DELETE.getlist("selected_contact_ids")
-        Contact.objects.filter(id__in=contact_ids).delete()
-        return self.get(request)
+        delete_count, _ = Contact.objects.filter(id__in=contact_ids).delete()
+        response = self.get(request)
+        if delete_count > 0:
+            archiver.reset()
+            response = trigger_client_event(response, CONTACTS_CHANGED_EVENT)
+
+        return response
 
 
 class CreateContactView(generic.CreateView):
@@ -67,6 +75,10 @@ class CreateContactView(generic.CreateView):
 
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        return trigger_client_event(response, CONTACTS_CHANGED_EVENT)
 
 
 class DetailContactView(generic.DetailView):
@@ -86,6 +98,10 @@ class EditContactView(generic.UpdateView):
     def get_success_url(self) -> str:
         return reverse("core:contact-index")
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        return trigger_client_event(response, CONTACTS_CHANGED_EVENT)
+
 
 class DeleteContactView(DeleteView):
     model = Contact
@@ -104,6 +120,10 @@ class DeleteContactView(DeleteView):
 
         redirect_element = self.redirect_map.get(self.request.htmx.trigger, False)
         return redirect_element
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        return trigger_client_event(response, CONTACTS_CHANGED_EVENT)
 
 
 class ContactView(View):

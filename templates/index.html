@@ -61,7 +61,7 @@
 <p>
     <a href="{% url 'core:contact-create' %}">Add Contact</a>
     <span hx-get="{% url 'core:contact-count' %}"
-          hx-trigger="revealed">
+          hx-trigger="revealed, contactsChanged from:body">
         <img id="spinner"
              class="htmx-indicator"
              src="{% static 'img/spinning-circles.svg' %}" />
