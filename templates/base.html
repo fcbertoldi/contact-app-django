@@ -9,8 +9,9 @@
           href="{% static 'css/missing.min.css' %}">
     <link rel="stylesheet"
           href="{% static 'css/site.css' %}">
-    <script src="{% static 'js/htmx-1.9.12.js' %}"
+    <script src="{% static 'js/vendor/htmx/htmx-1.9.12.js' %}"
             defer></script>
+    {% block scripts %}{% endblock %}
 </head>
 
 <body hx-boost="true"
