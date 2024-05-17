@@ -1,5 +1,3 @@
-* TODO organizar pasta static/css por vendor
-
 * TODO reabilitar django-check no pre-commit
 
 * TODO pesquisar linters de JS e adicioná-los no pre-commit
