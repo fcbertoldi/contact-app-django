@@ -4,7 +4,7 @@
      hx-target="this"
      hx-swap="outerHTML"
      hx-trigger="contactsChanged from:body"
-     data-auto-download>
+     data-download-load-target>
    {% if archiver_status == 'WAITING' %}
    <button hx-post="{% url 'core:contact-archive' %}">Download Contact Archive</button>
    {% elif archiver_status == 'RUNNING' %}
@@ -22,7 +22,7 @@
    {% elif archiver_status == 'COMPLETE' %}
    <a id="archive-link"
       hx-boost="false"
-      href="{% url 'core:contact-archive-file' %}">Archive Ready! Click here if auto-dowload does not start.
+      href="{% url 'core:contact-archive-file' %}" data-download-file>Archive Ready! Click here if auto-dowload does not start.
       &downarrow;</a>
    {% endif %}
    {% if archiver_status != 'WAITING' %}
