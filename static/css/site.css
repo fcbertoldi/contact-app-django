@@ -61,10 +61,10 @@ td {
     transition: width .6s ease;
 }
 
-[data-overflow-menu] {
+/* [data-overflow-menu] {
     visibility: hidden;
 }
 
 tr:is(:hover, :focus-within) [data-overflow-menu] {
     visibility: visible;
-}
+} */

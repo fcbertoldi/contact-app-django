@@ -1,9 +1,3 @@
-* TODO reabilitar django-check no pre-commit
-
-* TODO pesquisar linters de JS e adicioná-los no pre-commit
-
-* TODO implementar overflow menu do capítulo Client-Side Scripting
-
 * TODO implementar seção sobre Alpine.js do capítulo Client-Side Scripting
 
 * TODO testar mypy
