@@ -1,5 +1,3 @@
-* TODO implementar seção sobre Alpine.js do capítulo Client-Side Scripting
-
 * TODO testar mypy
 
 * TODO testar teste e2e com Playwright
