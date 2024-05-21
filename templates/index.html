@@ -26,20 +26,26 @@
 </form>
 
 <form x-data="{ selected: [] }">
-    <template x-if="selected.length > 0">
-        <div class="box info tool-bar top">
-            <slot x-text="selected.length"></slot>
-            contacts selected
-
-            <button type="button"
-                    class="bad bg color border"
-                    @click="confirm(`Delete ${selected.length} contacts?`) &&
-                htmx.ajax('DELETE', '{% url 'core:contact-index' %}', { source: $root, target: document.body })">Delete</button>
-            <hr aria-orientation="vertical">
-            <button type="button"
-                    @click="selected = []">Cancel</button>
-        </div>
-    </template>
+    <div hx-delete="{% url 'core:contact-index' %}"
+         hx-target="body"
+         hx-trigger="confirmed">
+        <template x-if="selected.length > 0">
+            <div class="box info tool-bar top">
+                <slot x-text="selected.length"></slot>
+                contacts selected
+                <button id="bulk-delete-btn"
+                        type="button"
+                        class="bad bg color border"
+                        @click="sweetConfirm($el,
+                        { title: 'Delete these contacts?',
+                          showCancelButton: true,
+                          confirmButtonText: 'Delete'})">Delete</button>
+                <hr aria-orientation="vertical">
+                <button type="button"
+                        @click="selected = []">Cancel</button>
+            </div>
+        </template>
+    </div>
     <table>
         <thead>
             <tr>
