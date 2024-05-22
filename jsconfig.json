@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "CommonJS",
+        "baseUrl": "./",
+        "checkJs": true,
+        "allowImportingTsExtensions": true,
+        "strictNullChecks": false,
+        "strictFunctionTypes": false,
+        "paths": {
+            "@js/*": [
+                "static/js/*"
+            ]
+        }
+    },
+    "include": [
+        "static/js/**/*"
+    ],
+    "exclude": [
+        "static/js/vendor/**/*",
+        "node_modules",
+        "**/node_modules/*"
+    ]
+}
