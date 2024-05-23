@@ -16,6 +16,11 @@ function downloadFiles(loadTarget) {
   }
 }
 
+
+/**
+ * Add overflow-menu capabilities to elements of the subtree
+ * param {EventTarget} subtree
+ */
 function overflowMenu(subtree = document) {
   subtree.querySelectorAll("[data-overflow-menu]").forEach(menuRoot => {
     const
