@@ -1,3 +1,5 @@
+* TODO usar django-crispy-forms
+
 * TODO testar mypy
 
 * TODO testar teste e2e com Playwright
