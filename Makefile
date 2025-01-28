@@ -1,5 +1,5 @@
 VENV_NAME = contact-app-django
-PYTHON_VERSION = python3.10
+PYTHON_VERSION = python3.11
 UV_TOOL := $(shell command -v uv)
 
 ifeq ($(UV_TOOL),)
