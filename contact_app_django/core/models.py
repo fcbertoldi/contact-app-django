@@ -23,7 +23,7 @@ class Contact(TimestampedModel, models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=30, null=True)
 
-    class Meta:
+    class Meta:  # type: ignore
         indexes = [
             models.Index(fields=["id"]),
         ]

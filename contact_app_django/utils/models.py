@@ -18,4 +18,4 @@ class TimestampedModel(models.Model):
         super().save(*args, **kwargs)
 
     def was_updated(self):
-        return self.created != self.updated
+        return self.created_at != self.updated_at
